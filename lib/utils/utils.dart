@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
@@ -26,9 +26,7 @@ class Utils {
   }
 
   static Color getRandomColor() {
-    return Colors.accents[Random().nextInt(
-      Colors.accents.length,
-    )];
+    return Colors.accents[Random().nextInt(Colors.accents.length)];
   }
 
   static double? checkDouble(dynamic value) {
@@ -46,17 +44,14 @@ class Utils {
   }
 }
 
+extension GetExtension on GetInterface {
+  S findOrPut<S>(S create, {String? tag, bool permanent = false}) {
+    return isRegistered<S>(tag: tag)
+        ? find<S>(tag: tag)
+        : put<S>(create, tag: tag, permanent: permanent);
+  }
 
-// import 'package:get/get.dart';
-//
-// extension GetExtension on GetInterface {
-//   S findOrPut<S>(S create, {String? tag, bool permanent = false}) {
-//     return isRegistered<S>(tag: tag)
-//         ? find<S>(tag: tag)
-//         : put<S>(create, tag: tag, permanent: permanent);
-//   }
-//
-//   Future<bool> findAndDelete<S>({String? tag, bool force = false}) async {
-//     return isRegistered<S>(tag: tag) && await delete<S>(tag: tag, force: force);
-//   }
-// }
+  Future<bool> findAndDelete<S>({String? tag, bool force = false}) async {
+    return isRegistered<S>(tag: tag) && await delete<S>(tag: tag, force: force);
+  }
+}
