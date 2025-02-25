@@ -35,6 +35,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  http: any # ^1.3.0 https://pub.dev/packages/http
+  cached_network_image: any # ^3.4.1 https://pub.dev/packages/cached_network_image
+  flutter_cache_manager: any # ^3.4.1 https://pub.dev/packages/flutter_cache_manager
+  gap: any # ^3.0.1 https://pub.dev/packages/gap
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
