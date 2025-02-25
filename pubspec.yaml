@@ -1,5 +1,5 @@
 name: flutter_reviewer_2025v1
-description: "A new Flutter project."
+description: "This practice project serves as a collection of everything I've learned about Flutter development."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -20,6 +20,9 @@ version: 1.0.0+1
 
 environment:
   sdk: ^3.7.0
+  # indicate that your project works with Flutter 3.5.3 or higher but not version 4.0.0.
+  # sdk: '>=3.5.3 <4.0.0'  # Dart SDK Version
+  # flutter: '>=3.24.3'  # Flutter SDK Version
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -28,12 +31,14 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter:
-    sdk: flutter
+  flutter: # Required for every Flutter project
+    sdk: flutter # Required for every Flutter project
+  flutter_localizations: # Required to enable localization
+    sdk: flutter         # Required to enable localization
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.8
+  cupertino_icons: any # ^1.0.8 https://pub.dev/packages/cupertino_icons
 
   # The "any" is to ensure get the latest package version and auto adjust version conflict.
   http: any # ^1.3.0 https://pub.dev/packages/http
@@ -56,7 +61,7 @@ dependencies:
   google_fonts: any # ^6.2.1 https://pub.dev/packages/google_fonts
   selectable: any  # ^0.4.0 https://pub.dev/packages/selectable
 
-  calendar_date_picker2: any # ^1.1.9 https://pub.dev/packages/calendar_date_picker2
+  # calendar_date_picker2: any # ^1.1.9 https://pub.dev/packages/calendar_date_picker2
   connectivity_plus: any # ^6.1.3 https://pub.dev/packages/connectivity_plus
 
   # package_of_the_week
@@ -64,12 +69,12 @@ dependencies:
   fl_chart: any # ^0.70.2 https://pub.dev/packages/fl_chart
   mix: any # ^1.5.4 https://pub.dev/packages/mix
   flutter_animate: any # ^4.5.2 https://pub.dev/packages/flutter_animate
-
   fluttertoast: any # ^8.2.12 https://pub.dev/packages/fluttertoast
+  share_plus: any # ^10.1.4 https://pub.dev/packages/share_plus
+
+  # firebase
   firebase_core: any # ^3.12.0 https://pub.dev/packages/firebase_core
   firebase_auth: any # ^5.5.0 https://pub.dev/packages/firebase_auth
-
-
 
 
 dev_dependencies:
@@ -81,7 +86,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
+  flutter_lints: ^5.0.0 # https://pub.dev/packages/flutter_lints
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
