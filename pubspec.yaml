@@ -42,6 +42,7 @@ dependencies:
   gap: any # ^3.0.1 https://pub.dev/packages/gap
   get: any # ^4.7.2 https://pub.dev/packages/get
   device_preview: any # ^1.2.0 https://pub.dev/packages/device_preview
+  popover: any # ^0.3.1 https://pub.dev/packages/popover
 
 
 dev_dependencies:
