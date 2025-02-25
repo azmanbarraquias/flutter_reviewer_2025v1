@@ -1,6 +1,10 @@
 # flutter_reviewer_2025v1
  This practice project serves as a collection of everything I've learned about Flutter development.
 
+Flutter 3.29.0 • channel stable • https://github.com/flutter/flutter.git
+Framework • revision 35c388afb5 (2 weeks ago) • 2025-02-10 12:48:41 -0800
+Engine • revision f73bfc4522
+Tools • Dart 3.7.0 • DevTools 2.42.2
 
 
 My Progress https://app.milanote.com/1QXuf41xJ0OReE?p=LKEwZdNRBdh
