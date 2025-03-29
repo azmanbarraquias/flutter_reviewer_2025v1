@@ -3,21 +3,76 @@
 //
 // import '../utils/xprint.dart';
 
+abstract class Animal {
+  void sound();
+}
 
-void main() {
+mixin CanFly {
+  void fly() {
+    print("Flying!");
+  }
+}
+
+class Bird extends Animal with CanFly {
+  @override
+  void sound() {
+    print("Chirp!");
+  }
+}
+
+Stream<int> countStream() async* {
+  for (int i = 1; i <= 5; i++) {
+    await Future.delayed(Duration(seconds: 1));
+    yield i;
+
+  }
+
+}
+
+class Singleton {
+  static final Singleton _instance = Singleton._internal();
+  factory Singleton() => _instance;
+  Singleton._internal();
+
+  void sound() {
+    print("Chirp!");
+  }
+}
+
+void main()  {
+  Singleton._instance.sound();
+
+
+  // mixin
+  // MyApp app = MyApp();
+  // app.log("Hello, Mixin!"); // Log: Hello, Mixin!
+  //
+  // //  mixins work with interfaces?
+  // Bird b = Bird();
+  // b.sound(); // Chirp!
+  // b.fly(); // Flying!
+}
+
+mixin Logger {
+  void log(String message) {
+    print('Log: $message');
+  }
+}
+
+class MyApp with Logger {}
+
+void test() {
   int min = 1;
   String textMin = 'minutes ago';
 
-
   if (min == 1 && textMin.contains('s')) {
-    print('$min ${(textMin).replaceFirst(
-        's', '')}');
-  }
-  else {
+    print('$min ${(textMin).replaceFirst('s', '')}');
+  } else {
     print('${min} ${textMin}');
   }
 }
 
+//
 // class MyPage extends StatelessWidget {
 //   const MyPage({super.key});
 //

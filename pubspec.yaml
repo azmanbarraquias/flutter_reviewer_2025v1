@@ -33,6 +33,7 @@ environment:
 dependencies:
   flutter: # Required for every Flutter project
     sdk: flutter # Required for every Flutter project
+
   flutter_localizations: # Required to enable localization
     sdk: flutter         # Required to enable localization
 
@@ -45,7 +46,6 @@ dependencies:
   cached_network_image: any # ^3.4.1 https://pub.dev/packages/cached_network_image
   flutter_cache_manager: any # ^3.4.1 https://pub.dev/packages/flutter_cache_manager
   gap: any # ^3.0.1 https://pub.dev/packages/gap
-  get: any # ^4.7.2 https://pub.dev/packages/get
   device_preview: any # ^1.2.0 https://pub.dev/packages/device_preview
   popover: any # ^0.3.1 https://pub.dev/packages/popover
   flutter_glow: any # ^0.3.2 https://pub.dev/packages/flutter_glow
@@ -75,6 +75,18 @@ dependencies:
   # firebase
   firebase_core: any # ^3.12.0 https://pub.dev/packages/firebase_core
   firebase_auth: any # ^5.5.0 https://pub.dev/packages/firebase_auth
+
+  # State Management
+  flutter_bloc: any # ^9.1.0
+  get: any # ^4.7.2 https://pub.dev/packages/get
+
+  # Dependency Injection
+  get_it: any # ^8.0.3 https://pub.dev/packages/get_it
+
+  #
+  intl: any # ^0.19.0  https://pub.dev/packages/intl
+
+  shared_preferences: any # ^2.5.3 # https://pub.dev/packages/shared_preferences
 
 
 dev_dependencies:
@@ -107,6 +119,7 @@ flutter:
     - assets/instagram_bottom_navigation_bar/assets/vectors/
     - assets/instagram_bottom_navigation_bar/assets/images/
     - assets/
+    - assets/images/waiting.png
     - assets/deep_quiz_img.png
     # Include a single source code file:
     # Include all files under a subfoler by adding trailing "/":
@@ -136,6 +149,11 @@ flutter:
         - asset: assets/fonts/OpenSans-Italic.ttf
           style: italic
         - asset: assets/fonts/OpenSans-Bold.ttf
+          weight: 700
+    - family: Quicksand
+      fonts:
+        - asset: assets/fonts/Quicksand-Regular.ttf
+        - asset: assets/fonts/Quicksand-Bold.ttf
           weight: 700
     - family: Hipsters
       fonts:
