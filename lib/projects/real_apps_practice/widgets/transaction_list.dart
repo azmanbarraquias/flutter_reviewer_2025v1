@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
+import '../../../utils/xprint.dart';
 import '../models/transaction.dart';
+import './transaction_item.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
@@ -11,6 +11,7 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    xPrint('build() TransactionList');
     return transactions.isEmpty
         ? LayoutBuilder(
           builder: (ctx, constraints) {
@@ -20,7 +21,7 @@ class TransactionList extends StatelessWidget {
                   'No transactions added yet!',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 SizedBox(
                   height: constraints.maxHeight * 0.6,
                   child: Image.asset(
@@ -32,54 +33,17 @@ class TransactionList extends StatelessWidget {
             );
           },
         )
-        : ListView.builder(
-          itemBuilder: (ctx, index) {
-            return Card(
-              elevation: 5,
-              margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 30,
-                  child: Padding(
-                    padding: EdgeInsets.all(6),
-                    child: FittedBox(
-                      child: Text('\$${transactions[index].amount}'),
+        : ListView(
+          children:
+              transactions
+                  .map(
+                    (tx) => TransactionItem(
+                      key: ValueKey(tx.id),
+                      transaction: tx,
+                      deleteTx: deleteTx,
                     ),
-                  ),
-                ),
-                title: Text(
-                  transactions[index].title,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                subtitle: Text(
-                  DateFormat.yMMMd().format(transactions[index].date),
-                ),
-                trailing:
-                    MediaQuery.of(context).size.width > 460
-                        ? TextButton(
-                          onPressed: () => deleteTx(transactions[index].id),
-                          child: Row(
-                            children: [
-                              Icon(Icons.delete),
-                              SizedBox(width: 5),
-                              Text(
-                                'Delete',
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.error,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                        : IconButton(
-                          icon: Icon(Icons.delete),
-                          color: Theme.of(context).colorScheme.error,
-                          onPressed: () => deleteTx(transactions[index].id),
-                        ),
-              ),
-            );
-          },
-          itemCount: transactions.length,
+                  )
+                  .toList(),
         );
   }
 }

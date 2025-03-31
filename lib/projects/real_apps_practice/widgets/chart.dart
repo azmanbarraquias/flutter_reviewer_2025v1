@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../utils/xprint.dart';
 import './chart_bar.dart';
 import '../models/transaction.dart';
 
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransactions;
 
-  const Chart(this.recentTransactions, {super.key});
+  Chart(this.recentTransactions, {super.key}) {
+    xPrint('Constructor Chart');
+  }
 
   List<Map<String, dynamic>> get groupedTransactionValues {
     return List.generate(7, (index) {
@@ -35,6 +38,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    xPrint('build() Chart');
     return Card(
       elevation: 6,
       margin: const EdgeInsets.all(20),

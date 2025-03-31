@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../utils/xprint.dart';
 
 class ChartBar extends StatelessWidget {
   final String label;
@@ -14,6 +15,7 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    xPrint('build() ChartBar');
     return LayoutBuilder(
       builder: (ctx, constraints) {
         return Column(
