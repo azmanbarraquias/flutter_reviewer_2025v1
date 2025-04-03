@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_reviewer_2025v1/projects/shop_navigations/models/meal_model.dart';
+import 'package:flutter_reviewer_2025v1/projects/shop_navigations/widgets/meal_item.dart';
 import '../models/category_model.dart';
-import '../models/meal_model.dart';
-import '../widgets/meal_item.dart';
 
 class CategoryMealsScreen extends StatefulWidget {
   const CategoryMealsScreen({super.key, required this.availableMeals});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../utils/xprint.dart';
+import '../../../utils/xprint.dart';
 import '../models/meal_model.dart';
 import '../screen/meal_detail_screen.dart';
 

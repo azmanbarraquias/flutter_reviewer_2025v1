@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../models/meal_model.dart';
+import 'package:flutter_reviewer_2025v1/projects/shop_navigations/models/meal_model.dart';
 import 'categories_screen.dart';
 import 'fevorites_screen.dart';
 import 'main_drawer.dart';
@@ -56,13 +55,14 @@ class _TabScreenState extends State<TabScreen> {
             icon: Icon(Icons.category),
             label: 'Category',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Category'),
+          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Favorite'),
         ],
       ),
       body: _pages[_selectedPageIndex],
     );
   }
 
+  // located at top
   DefaultTabController buildDefaultTabControllerTop(BuildContext context) {
     return DefaultTabController(
       length: _pages.length,

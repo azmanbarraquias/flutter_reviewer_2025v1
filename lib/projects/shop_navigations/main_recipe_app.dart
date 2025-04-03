@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../utils/xprint.dart';
 import 'models/meal_model.dart';
 import 'other/dummy_data.dart';
 import 'screen/category_meals_details_screen.dart';
@@ -124,24 +124,33 @@ class _MyAppState extends State<MyApp> {
         '/': (ctx) => TabScreen(favoriteMeals: _favoriteMeals),
         CategoryMealsScreen.routeName:
             (ctx) => CategoryMealsScreen(availableMeals: _availableMeals),
-        MealDetailScreen.routeName:
-            (ctx) => MealDetailScreen(
-              toggleFavorites: _toggleFavorite,
-              isMealFavorite: isMealFavorite,
-            ),
+        MealDetailScreen.routeName: (ctx) {
+          return MealDetailScreen(
+            toggleFavorites: _toggleFavorite,
+            isMealFavorite: isMealFavorite,
+          );
+        },
         FiltersScreen.routeName:
             (ctx) =>
                 FiltersScreen(saveFilter: _serFilters, currentFilter: _filters),
       },
       // onGenerateRoute: (setting) {
+      //   // xPrint(setting.arguments);
+      //   // if (setting.name == '/meal-detail') {
+      //   //   return ...
+      //   // } else if (setting.name == '/something-else') {
+      //   //   return ...
+      //   // }
       //   xPrint(setting.arguments.toString());
-      //   return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
+      //   return MaterialPageRoute(builder: (ctx)  => const CategoriesScreen());
       // },
-      // onUnknownRoute: (setting) {
-      //   //404
-      //   xPrint(setting.arguments.toString());
-      //   return MaterialPageRoute(builder: (ctx) => const CategoriesScreen());
-      // },
+      onUnknownRoute: (setting) {
+        //404 fall back
+        xPrint(setting.arguments.toString());
+        return MaterialPageRoute(
+          builder: (ctx) => const Scaffold(body: Placeholder()),
+        );
+      },
     );
   }
 }

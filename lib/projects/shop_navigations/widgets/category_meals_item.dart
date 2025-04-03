@@ -33,7 +33,7 @@ class CategoryItem extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           gradient: LinearGradient(
-            colors: [category.color.withOpacity(0.7), category.color],
+            colors: [category.color.withValues(alpha: 0.7), category.color],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
