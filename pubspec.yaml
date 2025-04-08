@@ -77,6 +77,7 @@ dependencies:
   firebase_auth: any # ^5.5.0 https://pub.dev/packages/firebase_auth
 
   # State Management
+  provider: any # ^6.1.4 https://pub.dev/packages/provider=
   flutter_bloc: any # ^9.1.0
   get: any # ^4.7.2 https://pub.dev/packages/get
 
