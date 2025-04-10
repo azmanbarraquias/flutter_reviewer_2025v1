@@ -44,21 +44,46 @@ class UserProductItem extends StatelessWidget {
                 )),
             IconButton(
                 onPressed: () async {
-                  Provider.of<Products>(context, listen: false)
-                      .deleteProduct(product)
-                      .then((_) {
-                    scaffoldKey.currentState?.showSnackBar(SnackBar(
-                      content: Text('${product.title} has been deleted'),
-                    ));
-                  }).catchError((error) {
-                    scaffoldKey.currentState?.showSnackBar(SnackBar(
-                      content: Text('$error'),
-                    ));
-                  });
-                  // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  //   content: Text('Yay! A SnackBar!'),
-                  //
-                  // ));
+                  showDialog(
+                      context: context,
+                      builder: (ctx) {
+                        return AlertDialog(
+                          title: const Text('Are you sure?'),
+                          content:
+                          const Text('Do you want to remove the item from the Product?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Provider.of<Products>(context, listen: false)
+                                    .deleteProduct(product)
+                                    .then((_) {
+                                  scaffoldKey.currentState?.showSnackBar(SnackBar(
+                                    content: Text('${product.title} has been deleted'),
+                                  ));
+                                }).catchError((error) {
+                                  scaffoldKey.currentState?.showSnackBar(SnackBar(
+                                    content: Text('$error'),
+                                  ));
+                                });
+                                // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                //   content: Text('Yay! A SnackBar!'),
+                                //
+                                // ));
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('Yes'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text('No'),
+                            )
+                          ],
+                        );
+                      });
+
+
                 },
                 icon: const Icon(
                   Icons.delete,

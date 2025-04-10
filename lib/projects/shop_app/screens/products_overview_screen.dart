@@ -10,7 +10,7 @@ import '../widgets/products_grid.dart';
 import '../widgets/badge.dart' as consumer_badge;
 import 'cart_screen.dart';
 
-enum FilterOptions { all, favorite }
+enum FilterOptions { all, favorite, cart }
 
 class ProductsOverviewScreen extends StatefulWidget {
   const ProductsOverviewScreen({super.key});
@@ -25,6 +25,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   bool _showOnlyFavorites = false;
   bool _isInit = true;
   bool _isLoading = false;
+  FilterOptions type = FilterOptions.all;
 
   _ProductsOverviewScreenState() {
     xPrint('_ProductsOverviewScreenState: constructor');
@@ -88,9 +89,15 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 switch (filOp) {
                   case FilterOptions.all:
                     _showOnlyFavorites = false;
+                    type = FilterOptions.all;
                     break;
                   case FilterOptions.favorite:
                     _showOnlyFavorites = true;
+                    type = FilterOptions.favorite;
+                    break;
+                  case FilterOptions.cart:
+                    _showOnlyFavorites = true;
+                    type = FilterOptions.cart;
                     break;
                   default:
                     _showOnlyFavorites = false;
@@ -114,6 +121,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
               ? const CircularProgressIndicator()
               : ProductGrid(
                   showFavorite: _showOnlyFavorites,
+                  filterType: type
                 ),
         ),
       ),

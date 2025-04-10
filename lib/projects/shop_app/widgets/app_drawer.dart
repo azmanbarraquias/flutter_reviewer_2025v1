@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_reviewer_2025v1/projects/shop_app/screens/products_overview_screen.dart';
 import 'package:flutter_reviewer_2025v1/utils/xprint.dart';
 
 import '../screens/orders_screen.dart';
@@ -22,14 +23,16 @@ class AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.shop),
             title: const Text('Shop'),
             onTap: () {
-              if (ModalRoute.of(context)?.settings.name == '/') {
-                xPrint('Same Page');
+              var name = ModalRoute.of(context)?.settings.name;
+              xPrint('Open $name');
+              if (name == ProductsOverviewScreen.routeName || name == null) {
                 Navigator.of(context).pop();
                 return;
               }
 
-              Navigator.of(context).pushReplacementNamed('/');
-              xPrint('Open ${ModalRoute.of(context)?.settings.name}');
+              Navigator.of(
+                context,
+              ).pushReplacementNamed(ProductsOverviewScreen.routeName);
             },
           ),
           const Divider(),
@@ -42,7 +45,9 @@ class AppDrawer extends StatelessWidget {
                 Navigator.of(context).pop();
                 return;
               }
-              Navigator.of(context).pushNamed(OrdersScreen.routeName);
+              Navigator.of(
+                context,
+              ).pushReplacementNamed(OrdersScreen.routeName);
               xPrint('Open ${ModalRoute.of(context)?.settings.name}');
             },
           ),
@@ -54,7 +59,7 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pushNamed(UserProductScreen.routeName);
               xPrint('Open ${ModalRoute.of(context)?.settings.name}');
             },
-          )
+          ),
         ],
       ),
     );

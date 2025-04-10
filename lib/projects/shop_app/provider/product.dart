@@ -12,13 +12,14 @@ class Product with ChangeNotifier {
   final String? imageUrl;
   bool isFavorite;
 
-  Product(
-      {this.id,
-      this.title,
-      this.description,
-      this.price = 0,
-      this.imageUrl,
-      this.isFavorite = false});
+  Product({
+    this.id,
+    this.title,
+    this.description,
+    this.price = 0,
+    this.imageUrl,
+    this.isFavorite = false,
+  });
 
   void _setFavValue(bool newValue) {
     isFavorite = newValue;
@@ -31,16 +32,17 @@ class Product with ChangeNotifier {
     try {
       final url = Uri.https(urlLink, '/products/$id.json');
       isFavorite = !isFavorite;
-      final response = await http.patch(url,
-          body: json.encoder.convert({
-            'isFavorite': isFavorite,
-          }));
+      final response = await http.patch(
+        url,
+        body: json.encoder.convert({'isFavorite': isFavorite}),
+      );
       if (response.statusCode >= 400) {
         _setFavValue(oldFevStatus);
         xPrint('${response.statusCode}');
         _setFavValue(oldFevStatus);
       }
       xPrint('toggleFavoriteStatus: ${json.decoder.convert(response.body)}');
+      notifyListeners();
     } catch (error) {
       _setFavValue(oldFevStatus);
       xPrint('$error');

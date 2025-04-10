@@ -41,9 +41,11 @@ class Auth with ChangeNotifier {
       } else {
         showToast('SignUp Success, CODE: ${e.code}, MESSAGE: ${e.message}');
       }
-      xPrint('CODE: ${e.code}, '
-          'MESSAGE: ${e.message},'
-          'CREDENTIAL: ${e.credential}');
+      xPrint(
+        'CODE: ${e.code}, '
+        'MESSAGE: ${e.message},'
+        'CREDENTIAL: ${e.credential}',
+      );
       rethrow;
     } catch (error) {
       showToast(error);
@@ -65,9 +67,11 @@ class Auth with ChangeNotifier {
       // Navigator.of(context).pushReplacement(routeName)
     } on FirebaseAuthException catch (e) {
       showToast('SignIn: CODE: ${e.code}, MESSAGE: ${e.message}');
-      xPrint('CODE: ${e.code}, '
-          'MESSAGE: ${e.message},'
-          'CREDENTIAL: ${e.credential},');
+      xPrint(
+        'CODE: ${e.code}, '
+        'MESSAGE: ${e.message},'
+        'CREDENTIAL: ${e.credential},',
+      );
       rethrow;
     } catch (error) {
       showToast(error);
@@ -93,12 +97,13 @@ class Auth with ChangeNotifier {
 
   void showToast(message) {
     Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.SNACKBAR,
-        backgroundColor: Colors.black54,
-        textColor: Colors.white,
-        fontSize: 14.0);
+      msg: message,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.SNACKBAR,
+      backgroundColor: Colors.black54,
+      textColor: Colors.white,
+      fontSize: 14.0,
+    );
   }
 }
 

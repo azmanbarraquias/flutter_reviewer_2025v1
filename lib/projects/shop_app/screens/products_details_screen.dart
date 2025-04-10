@@ -13,10 +13,13 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // get the arguments and convert to Productz
     final product = ModalRoute.of(context)?.settings.arguments as Product;
 
-    final productProvider =
-        Provider.of<Products>(context, listen: false).findByProduct(product);
+    final productProvider = Provider.of<Products>(
+      context,
+      listen: false,
+    ).findByProduct(product);
     return Scaffold(
       // appBar: AppBar(
       //   title: Text(productProvider.title ?? ''),
@@ -29,14 +32,13 @@ class ProductDetailsScreen extends StatelessWidget {
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
               background: Hero(
-                  tag: product.id!,
-                  child: FadeInImage(
-                    placeholder: const AssetImage('assets/pls_wait.png'),
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      product.imageUrl ?? '',
-                    ),
-                  )),
+                tag: product.id!,
+                child: FadeInImage(
+                  placeholder: const AssetImage('assets/pls_wait.png'),
+                  fit: BoxFit.cover,
+                  image: NetworkImage(product.imageUrl ?? ''),
+                ),
+              ),
               title: Text(
                 productProvider.title ?? '',
                 style: const TextStyle(color: Colors.white),
@@ -44,27 +46,22 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
           ),
           SliverList(
-              delegate: SliverChildListDelegate([
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              '\$${product.price}',
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.grey, fontSize: 20),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              '${product.description}',
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.grey, fontSize: 20),
-            ),
-            const SizedBox(
-              height: 800,
-            ),
-          ])),
+            delegate: SliverChildListDelegate([
+              const SizedBox(height: 10),
+              Text(
+                '\$${product.price}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.grey, fontSize: 20),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                '${product.description}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.grey, fontSize: 20),
+              ),
+              const SizedBox(height: 800),
+            ]),
+          ),
         ],
       ),
     );
