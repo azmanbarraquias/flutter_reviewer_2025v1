@@ -209,7 +209,7 @@ class _AuthCardState extends State<AuthCard>
         context: context,
         builder: (ctx) {
           return AlertDialog(
-            title: const Text('An Error Occured'),
+            title: const Text('An Error Occurred'),
             content: Text(message),
             actions: [
               OutlinedButton(

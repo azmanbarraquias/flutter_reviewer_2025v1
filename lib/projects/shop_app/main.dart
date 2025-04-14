@@ -38,16 +38,19 @@ class MyApp extends StatelessWidget {
 
     final themeData = ThemeData(
       primarySwatch: Colors.blue,
-      pageTransitionsTheme: PageTransitionsTheme(builders: {
-        TargetPlatform.android: CustomPageTransitionBuilder(),
-        // TargetPlatform.iOS: CustomPageTransitionBuilder(),
-      }),
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: CustomPageTransitionBuilder(),
+          // TargetPlatform.iOS: CustomPageTransitionBuilder(),
+        },
+      ),
       appBarTheme: AppBarTheme(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.blue,
         titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: Theme.of(context).textTheme.headlineMedium?.fontSize),
+          color: Colors.white,
+          fontSize: Theme.of(context).textTheme.headlineMedium?.fontSize,
+        ),
       ),
     );
 
@@ -61,8 +64,9 @@ class MyApp extends StatelessWidget {
     };
 
     return MultiProvider(
-        providers: providersList,
-        child: Consumer<Auth>(builder: (ctx, auth, _) {
+      providers: providersList,
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) {
           return MaterialApp(
             scaffoldMessengerKey: scaffoldKey,
             title: 'MyShop',
@@ -72,6 +76,8 @@ class MyApp extends StatelessWidget {
                 auth.isAuth ? const ProductDetailsScreen() : const AuthScreen(),
             routes: routeList,
           );
-        }));
+        },
+      ),
+    );
   }
 }

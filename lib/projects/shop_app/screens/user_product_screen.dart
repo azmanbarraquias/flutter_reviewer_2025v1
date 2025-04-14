@@ -40,11 +40,16 @@ class UserProductScreen extends StatelessWidget {
       body: RefreshIndicator(
         onRefresh: () => _refreshProduct(context),
         child: ListView.builder(
-            padding: const EdgeInsets.all(10),
+            padding:  EdgeInsets.fromLTRB(0, 10, 0, 10),
             itemCount: products.products.length,
             itemBuilder: (ctx, i) {
-              return UserProductItem(
-                product: products.products[i],
+              return Column(
+                children: [
+                  UserProductItem(
+                    product: products.products[i],
+                  ),
+                  Divider()
+                ],
               );
             }),
       ),
