@@ -43,7 +43,7 @@ class Products with ChangeNotifier {
   ];
 
   List<Product> get products {
-// return a copy
+    // return a copy
     return [..._products];
   }
 
@@ -58,14 +58,16 @@ class Products with ChangeNotifier {
       final List<Product> loadedProducts = [];
       final products = productsJson as Map<String, dynamic>;
       products.forEach((productId, productData) {
-        loadedProducts.add(Product(
-          id: productId,
-          title: productData['title'],
-          description: productData['description'],
-          price: double.tryParse(productData['price'].toString()),
-          isFavorite: productData['isFavorite'],
-          imageUrl: productData['imageUrl'],
-        ));
+        loadedProducts.add(
+          Product(
+            id: productId,
+            title: productData['title'],
+            description: productData['description'],
+            price: double.tryParse(productData['price'].toString()),
+            isFavorite: productData['isFavorite'],
+            imageUrl: productData['imageUrl'],
+          ),
+        );
       });
       _products = loadedProducts;
       notifyListeners();
@@ -81,27 +83,33 @@ class Products with ChangeNotifier {
     try {
       final url = Uri.https(urlLink, '/products.json');
 
-      final response = await http.post(url,
-          body: json.encoder.convert({
-            'title': product.title,
-            'description': product.description,
-            'imageUrl': product.imageUrl,
-            'price': product.price,
-            'isFavorite': product.isFavorite,
-          }));
+      final response = await http.post(
+        url,
+        body: json.encoder.convert({
+          'title': product.title,
+          'description': product.description,
+          'imageUrl': product.imageUrl,
+          'price': product.price,
+          'isFavorite': product.isFavorite,
+        }),
+      );
 
       final responseFromServer = json.decoder.convert(response.body)['error'];
-
-      final idProduct = Product(
-          id: json.decoder.convert(response.body)['name'],
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          imageUrl: product.imageUrl);
 
       if (responseFromServer == 'Permission denied') {
         throw Exception('Permission denied');
       }
+
+      final idProduct = Product(
+        id: json.decoder.convert(response.body)['name'],
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+      );
+
+      // put 2 sec delay, loading.
+      await Future.delayed(Duration(seconds: 2));
 
       _products.add((idProduct));
 
@@ -114,86 +122,90 @@ class Products with ChangeNotifier {
     }
   }
 
-  Future<void> addProduct1(Product product) async {
+  Future<void> addProductOther(Product product) async {
     const urlLink = 'myflutter-update-default-rtdb.firebaseio.com';
-    final url = Uri.https(
-      urlLink,
-      '/products.json',
-    );
+    final url = Uri.https(urlLink, '/products.json');
 
     await http
-        .post(url,
-            body: json.encoder.convert({
-              'title': product.title,
-              'description': product.description,
-              'imageUrl': product.imageUrl,
-              'price': product.price,
-              'isFavorite': product.isFavorite,
-            }))
+        .post(
+          url,
+          body: json.encoder.convert({
+            'title': product.title,
+            'description': product.description,
+            'imageUrl': product.imageUrl,
+            'price': product.price,
+            'isFavorite': product.isFavorite,
+          }),
+        )
         .then((response) {
-      // since post is a future function we can use then.
+          // since post is a future function we can use then.
 
-      var idProduct = Product(
-          id: json.decoder.convert(response.body)['name'],
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          imageUrl: product.imageUrl);
+          var idProduct = Product(
+            id: json.decoder.convert(response.body)['name'],
+            title: product.title,
+            description: product.description,
+            price: product.price,
+            imageUrl: product.imageUrl,
+          );
 
-      _products.add((idProduct));
+          _products.add((idProduct));
 
-      notifyListeners();
+          notifyListeners();
 
-      xPrint('Response: ${json.decoder.convert(response.body)}');
-    }).catchError((error) {
-      xPrint('error> $error, at addProduct()');
-      throw error;
-    });
+          xPrint('Response: ${json.decoder.convert(response.body)}');
+        })
+        .catchError((error) {
+          xPrint('error> $error, at addProduct()');
+          throw error;
+        });
   }
 
-// bool _showFavorites = false;
-//
-// bool get isFev {
-//   return _showFavorites;
-// }
-//
-// void showFev() {
-//   _showFavorites = true;
-//   notifyListeners();
-//,
-// }
-//
-// void showAll() {
-//   _showFavorites = false;
-//   notifyListeners();
-//
-// }
+  // bool _showFavorites = false;
+  //
+  // bool get isFev {
+  //   return _showFavorites;
+  // }
+  //
+  // void showFev() {
+  //   _showFavorites = true;
+  //   notifyListeners();
+  //,
+  // }
+  //
+  // void showAll() {
+  //   _showFavorites = false;
+  //   notifyListeners();
+  //
+  // }
 
   Product findByProduct(Product product) {
     return products.firstWhere((productProv) => productProv.id == product.id);
   }
 
-// dart don't have overloading
+  // dart don't have overloading
   Product findById(String productID) {
     return products.firstWhere((productProv) => productProv.id == productID);
   }
 
   Future<void> updateProduct(Product productUpdate) async {
     const urlLink = 'myflutter-update-default-rtdb.firebaseio.com';
-    final prodIndex =
-        products.indexWhere((product) => product.id == productUpdate.id);
+    final prodIndex = products.indexWhere(
+      (product) => product.id == productUpdate.id,
+    );
     try {
       if (prodIndex >= 0) {
         final url = Uri.https(urlLink, '/products/${productUpdate.id}.json');
 
-        final response = await http.patch(url,
-            body: json.encoder.convert({
-              'title': productUpdate.title,
-              'description': productUpdate.description,
-              'imageUrl': productUpdate.imageUrl,
-              'price': productUpdate.price,
-              // 'isFavorite': productUpdate.isFavorite,
-            }));
+        final response = await http.patch(
+          url,
+          body: json.encoder.convert({
+            'title': productUpdate.title,
+            'description': productUpdate.description,
+            'imageUrl': productUpdate.imageUrl,
+            'price': productUpdate.price,
+            // 'isFavorite': productUpdate.isFavorite,
+          }),
+        );
         _products[prodIndex] = productUpdate;
 
         final responseFromServer = json.decoder.convert(response.body);
@@ -213,8 +225,9 @@ class Products with ChangeNotifier {
     const urlLink = 'myflutter-update-default-rtdb.firebaseio.com';
     final url = Uri.https(urlLink, '/products/${productUpdate.id}.json');
 
-    final index =
-        products.indexWhere((product) => product.id == productUpdate.id);
+    final index = products.indexWhere(
+      (product) => product.id == productUpdate.id,
+    );
     Product? tempProduct = products[index];
     _products.removeAt(index);
     notifyListeners();
@@ -240,32 +253,36 @@ class Products with ChangeNotifier {
     const urlLink = 'myflutter-update-default-rtdb.firebaseio.com';
     final url = Uri.https(urlLink, '/products/${productUpdate.id}.json');
 
-    final index =
-        products.indexWhere((product) => product.id == productUpdate.id);
+    final index = products.indexWhere(
+      (product) => product.id == productUpdate.id,
+    );
     Product? tempProduct = products[index];
 
-    var test = await http.delete(url).then((m) {
-      if (m.statusCode >= 400) {
-        xPrint('deleteProduct error: ${m.statusCode}');
-      }
+    var test = await http
+        .delete(url)
+        .then((m) {
+          if (m.statusCode >= 400) {
+            xPrint('deleteProduct error: ${m.statusCode}');
+          }
 
-      xPrint('deleteProduct ${tempProduct?.title} has been deleted');
-      tempProduct = null;
-    }).catchError((error) {
-      xPrint('deleteProduct error: $error');
-      _products.insert(index, tempProduct!);
-      notifyListeners();
-    });
+          xPrint('deleteProduct ${tempProduct?.title} has been deleted');
+          tempProduct = null;
+        })
+        .catchError((error) {
+          xPrint('deleteProduct error: $error');
+          _products.insert(index, tempProduct!);
+          notifyListeners();
+        });
     xPrint('deleteProduct $test');
     _products.removeAt(index);
     notifyListeners();
   }
 
   List<Product> get favoritesItems {
-// if (_showFavorites) {
+    // if (_showFavorites) {
     return _products.where((product) => product.isFavorite).toList();
-// } else {
-//   return products;
-// }
+    // } else {
+    //   return products;
+    // }
   }
 }

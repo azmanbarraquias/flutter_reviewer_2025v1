@@ -1,8 +1,17 @@
-
+import "dart:io";
 void main(){
-  var myclass = MyClass();
-  myclass.hello1();
-  myclass.hello2();
+
+  for(int i = 1; i <= 5; i++){
+
+    stdout.write(i);
+
+
+  }
+  print("");
+
+  final numbers = <int>[13, 2, -11, 0];
+  numbers.sort();
+  print(numbers); // [-11, 0, 2, 13]
 
 
  
