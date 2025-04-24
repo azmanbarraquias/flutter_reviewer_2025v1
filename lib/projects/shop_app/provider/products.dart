@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reviewer_2025v1/projects/shop_app/models/http_exception.dart';
 import 'package:flutter_reviewer_2025v1/utils/xprint.dart';
@@ -7,6 +8,8 @@ import 'dart:convert';
 import 'product.dart';
 
 class Products with ChangeNotifier {
+  Products(this.authToken, this._products);
+
   List<Product> _products = [
     // Product(
     //   id: 'p1',
@@ -42,47 +45,81 @@ class Products with ChangeNotifier {
     // ),
   ];
 
+  final String? authToken;
+
   List<Product> get products {
     // return a copy
     return [..._products];
   }
 
-  Future<void> fetchAndSetProducts() async {
-    // _products = [];
-    const urlLink = 'myflutter-update-default-rtdb.firebaseio.com';
-    final url = Uri.https(urlLink, '/products.json');
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    _products = [];
+
+    const urlBase = 'myflutter-update-default-rtdb.firebaseio.com';
+    final user = FirebaseAuth.instance.currentUser;
+    final idToken = await user?.getIdToken();
+    final uid = user?.uid;
+
+    final queryParams =
+        filterByUser
+            ? {
+              "auth": idToken,
+              "orderBy": "\"creatorID\"",
+              "equalTo": "\"$uid\"",
+            }
+            : {"auth": idToken};
+
+    final productsUrl = Uri.https(urlBase, '/products.json', queryParams);
+    final favoritesUrl = Uri.https(urlBase, '/userFavorites/$uid.json', {
+      "auth": idToken,
+    });
 
     try {
-      final response = await http.get(url);
-      final productsJson = json.decoder.convert(response.body);
+      xPrint("fetchAndSetProducts idToken: $idToken");
+
+      final productsResponse = await http.get(productsUrl);
+      final favoritesResponse = await http.get(favoritesUrl);
+
+      xPrint("Products response: ${productsResponse.body}");
+
+      final productData = json.decode(productsResponse.body);
+      final favoritesData = json.decode(favoritesResponse.body);
+
       final List<Product> loadedProducts = [];
-      final products = productsJson as Map<String, dynamic>;
-      products.forEach((productId, productData) {
+
+      productData?.forEach((id, data) {
         loadedProducts.add(
           Product(
-            id: productId,
-            title: productData['title'],
-            description: productData['description'],
-            price: double.tryParse(productData['price'].toString()),
-            isFavorite: productData['isFavorite'],
-            imageUrl: productData['imageUrl'],
+            id: id,
+            title: data['title'],
+            description: data['description'],
+            price: double.tryParse(data['price'].toString()),
+            imageUrl: data['imageUrl'],
+            isFavorite: favoritesData?[id] ?? false,
           ),
         );
       });
+
       _products = loadedProducts;
-      notifyListeners();
-      xPrint('fetchAndSetProducts: ${json.decoder.convert(response.body)}');
-    } catch (e) {
+
+      xPrint('Final products list: $_products');
+    } catch (error) {
+      xPrint("Error fetching products: $error");
       rethrow;
+    } finally {
+      notifyListeners();
     }
   }
 
   Future<void> addProduct(Product product) async {
     const urlLink = 'myflutter-update-default-rtdb.firebaseio.com';
 
-    try {
-      final url = Uri.https(urlLink, '/products.json');
+    final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    xPrint("addProduct idToken: $idToken");
+    final url = Uri.https(urlLink, '/products.json', {"auth": authToken});
 
+    try {
       final response = await http.post(
         url,
         body: json.encoder.convert({
@@ -90,7 +127,8 @@ class Products with ChangeNotifier {
           'description': product.description,
           'imageUrl': product.imageUrl,
           'price': product.price,
-          'isFavorite': product.isFavorite,
+          'creatorID': uid,
+          // 'isFavorite': product.isFavorite,
         }),
       );
 
@@ -124,7 +162,9 @@ class Products with ChangeNotifier {
 
   Future<void> addProductOther(Product product) async {
     const urlLink = 'myflutter-update-default-rtdb.firebaseio.com';
-    final url = Uri.https(urlLink, '/products.json');
+    final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+    xPrint("addProduct idToken: $idToken");
+    final url = Uri.https(urlLink, '/products.json', {"auth": authToken});
 
     await http
         .post(
@@ -134,7 +174,7 @@ class Products with ChangeNotifier {
             'description': product.description,
             'imageUrl': product.imageUrl,
             'price': product.price,
-            'isFavorite': product.isFavorite,
+            // 'isFavorite': product.isFavorite,
           }),
         )
         .then((response) {
@@ -189,12 +229,18 @@ class Products with ChangeNotifier {
 
   Future<void> updateProduct(Product productUpdate) async {
     const urlLink = 'myflutter-update-default-rtdb.firebaseio.com';
+
+    final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+    xPrint("updateProduct idToken: $idToken");
+
     final prodIndex = products.indexWhere(
       (product) => product.id == productUpdate.id,
     );
     try {
       if (prodIndex >= 0) {
-        final url = Uri.https(urlLink, '/products/${productUpdate.id}.json');
+        final url = Uri.https(urlLink, '/products/${productUpdate.id}.json', {
+          "auth": idToken,
+        });
 
         final response = await http.patch(
           url,

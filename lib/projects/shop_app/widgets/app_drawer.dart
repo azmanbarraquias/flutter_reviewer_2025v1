@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reviewer_2025v1/projects/shop_app/screens/products_overview_screen.dart';
 import 'package:flutter_reviewer_2025v1/utils/xprint.dart';
+import 'package:provider/provider.dart';
 
+import '../provider/auth.dart';
+import '../screens/auth_screen.dart';
 import '../screens/orders_screen.dart';
 import '../screens/user_product_screen.dart';
 
@@ -58,6 +61,16 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed(UserProductScreen.routeName);
               xPrint('Open ${ModalRoute.of(context)?.settings.name}');
+            },
+          ),
+
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: const Text('Logout'),
+            onTap: () {
+              Provider.of<Auth>(context, listen: false).signOut(context);
+
             },
           ),
         ],

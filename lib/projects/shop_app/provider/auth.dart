@@ -1,98 +1,160 @@
+import 'dart:async';
+import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_reviewer_2025v1/utils/xprint.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
-  String? refreshToken;
+  String? tokenUserID;
   String? uid;
+  Timer? _signOutTimer;
+  String? expiredDate;
 
   bool get isAuth {
-    return refreshToken != null;
+    return tokenUserID != null;
   }
 
   String? get token {
-    return refreshToken;
+    return tokenUserID;
   }
 
-  Future<void> signUp({required String email, required String password}) async {
+  String? get userID {
+    return uid;
+  }
+
+  Future<void> signUp({
+    required String email,
+    required String password,
+    ctx,
+  }) async {
     try {
-      final fa = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      xPrint('Signup Status: $fa');
-      refreshToken = fa.user?.refreshToken;
-      uid = fa.user?.uid;
-      // Navigator.of(context).pushReplacement(routeName)
+      final userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      tokenUserID = await userCredential.user?.getIdToken();
+      uid = userCredential.user?.uid;
+
+      DateTime? expiryTime = await getTokenExpiryTime();
+      final now = DateTime.now();
+      final duration = expiryTime?.difference(now);
+
+      startAutoSignOutTimer(duration!, ctx);
+
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode({
+        'token': tokenUserID,
+        'uid': uid,
+        'expiryTime': expiryTime?.toIso8601String(),
+      });
+
+      prefs.setString('userData', userData);
     } on FirebaseAuthException catch (e) {
-      String message = '';
-      if (e.code == 'weak-password') {
-        message = 'The password provided is too weak';
-      } else if (e.code == 'email-already-in-use') {
-        message = 'An account already exists with that email.';
-      } else if (e.code == 'operation-not-allowed') {
-        message = 'account email or password not enabled.';
-      } else if (e.code == 'invalid-email') {
-        message = 'Sorry, the email is not valid, please try other email.';
-      }
-      if (message != '') {
-        showToast(message);
-      } else {
-        showToast('SignUp Success, CODE: ${e.code}, MESSAGE: ${e.message}');
-      }
-      xPrint(
-        'CODE: ${e.code}, '
-        'MESSAGE: ${e.message},'
-        'CREDENTIAL: ${e.credential}',
-      );
-      rethrow;
-    } catch (error) {
-      showToast(error);
-      xPrint('signup error: $error');
+      showToast(e.message ?? 'SignUp Error');
       rethrow;
     }
   }
 
-  Future<void> signIn({required String email, required String password}) async {
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('userData')) {
+      return false;
+    }
+
+    final extractedUserData = json.decode(prefs.getString('userData')!) as Map<String, Object>;
+
+    final expiryTime = DateTime.parse(
+      extractedUserData['expiryTime'] as String,
+    );
+    if (expiryTime.isBefore(DateTime.now())) {
+      return false;
+    }
+    tokenUserID = extractedUserData['token'] as String;
+    uid = extractedUserData['uid'] as String;
+    expiredDate = extractedUserData['expiryTime'] as String;
+    notifyListeners();
+    return true;
+  }
+
+  Future<void> signIn({
+    required String email,
+    required String password,
+    required BuildContext ctx,
+  }) async {
     try {
       final fa = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      xPrint('Signin Status: $fa');
-      refreshToken = fa.user?.refreshToken;
-      uid = fa.user?.uid;
-      // Navigator.of(context).pushReplacement(routeName)
+      tokenUserID = await FirebaseAuth.instance.currentUser?.getIdToken();
+      uid = FirebaseAuth.instance.currentUser?.uid;
+
+      DateTime? expiryTime = await getTokenExpiryTime();
+      final now = DateTime.now();
+      final duration = expiryTime?.difference(now);
+
+      startAutoSignOutTimer(duration!, ctx);
+
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode({
+        'token': tokenUserID,
+        'uid': uid,
+        'expiryTime': expiryTime?.toIso8601String(),
+      });
+
+      prefs.setString('userData', userData);
     } on FirebaseAuthException catch (e) {
-      showToast('SignIn: CODE: ${e.code}, MESSAGE: ${e.message}');
-      xPrint(
-        'CODE: ${e.code}, '
-        'MESSAGE: ${e.message},'
-        'CREDENTIAL: ${e.credential},',
-      );
-      rethrow;
-    } catch (error) {
-      showToast(error);
-      xPrint('signin error: $error');
+      showToast('SignIn Error: ${e.message}');
       rethrow;
     }
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(ctx) async {
+    tokenUserID = null;
+    uid = null;
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+
+    notifyListeners();
+
     try {
-      await FirebaseAuth.instance.signOut().then((_) {
-        xPrint('Sign Out');
-      });
-      // Navigator.of(context).pushReplacement(routeName)
-    } on FirebaseAuthException catch (e) {
-      xPrint('Error $e');
-      rethrow;
+      await FirebaseAuth.instance.signOut();
+      Navigator.of(ctx).popUntil((route) => route.isFirst);
     } catch (error) {
-      xPrint('signout error: $error');
       rethrow;
     }
+  }
+
+  Future<DateTime?> getTokenExpiryTime() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      try {
+        String? token = await user.getIdToken();
+        final parts = token?.split('.');
+        if (parts?.length != 3) return null;
+
+        final payloadMap = json.decode(
+          utf8.decode(base64Url.decode(base64Url.normalize(parts![1]))),
+        );
+
+        final exp = payloadMap['exp'];
+        if (exp == null) return null;
+
+        return DateTime.fromMillisecondsSinceEpoch(exp * 1000);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    return null;
+  }
+
+  void startAutoSignOutTimer(Duration duration, BuildContext ctx) {
+    _signOutTimer?.cancel();
+    _signOutTimer = Timer(duration, () {
+      signOut(ctx);
+    });
   }
 
   void showToast(message) {
@@ -106,35 +168,3 @@ class Auth with ChangeNotifier {
     );
   }
 }
-
-// UserCredential(
-//     additionalUserInfo: AdditionalUserInfo(
-//         isNewUser: true,
-//         profile: {},
-//         providerId: null,
-//         username: null,
-//         authorizationCode: null),
-//     credential: null,
-//     user: User(
-//         displayName: null,
-//         email: 'test@test.com',
-//         isEmailVerified: false,
-//         isAnonymous: false,
-//         metadata: UserMetadata(
-//             creationTime: '2024 - 08 - 22 04:47:00.102Z',
-//             lastSignInTime: '2024 - 08 - 22 04:47:00.102Z'),
-//         phoneNumber: null,
-//         photoURL: null,
-//         providerData,
-//         [
-//           UserInfo(
-//               displayName: null,
-//               email: 'test@test.com',
-//               phoneNumber: null,
-//               photoURL: null,
-//               providerId: 'password',
-//               uid: 'test@test.com')
-//         ],
-//         refreshToken: null,
-//         tenantId: null,
-//         uid: 'qubUOpMm5QhzRb0mYhglgTTX2w72'));

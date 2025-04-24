@@ -31,9 +31,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final providersList = [
       ChangeNotifierProvider(create: (ctx) => Auth()),
-      ChangeNotifierProvider(create: (ctx) => Products()),
+      ChangeNotifierProxyProvider<Auth, Products>(
+        create: (_) => Products(null, []),
+        update:
+            (ctx, auth, previous) => Products(
+              auth.token, // assuming `token` is not null
+              previous?.products ??
+                  [], // safer null check with default fallback
+            ),
+      ),
       ChangeNotifierProvider(create: (ctx) => Cart()),
-      ChangeNotifierProvider(create: (ctx) => Orders()),
+
+      ChangeNotifierProxyProvider<Auth, Orders>(
+        create: (_) => Orders(null, []),
+        update:
+            (ctx, auth, previous) => Orders(
+              auth.token, // assuming `token` is not null
+              previous?.orders ?? [], // safer null check with default fallback
+            ),
+      ),
     ];
 
     final themeData = ThemeData(
@@ -66,15 +82,30 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: providersList,
       child: Consumer<Auth>(
-        builder: (ctx, auth, _) {
+        builder: (_, auth, __) {
           return MaterialApp(
             scaffoldMessengerKey: scaffoldKey,
             title: 'MyShop',
             debugShowCheckedModeBanner: false,
+            routes: routeList,
             theme: themeData,
             home:
-                auth.isAuth ? const ProductDetailsScreen() : const AuthScreen(),
-            routes: routeList,
+                auth.isAuth
+                    ? const ProductDetailsScreen()
+                    : FutureBuilder(
+                      future: auth.tryAutoLogin(),
+                      builder:
+                          (
+                            BuildContext context,
+                            AsyncSnapshot<bool> snapshot,
+                          ) =>
+                              snapshot.connectionState ==
+                                      ConnectionState.waiting
+                                  ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                  : AuthScreen(),
+                    ),
           );
         },
       ),

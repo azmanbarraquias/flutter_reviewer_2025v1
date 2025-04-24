@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reviewer_2025v1/utils/xprint.dart';
 import 'package:http/http.dart' as http;
@@ -29,13 +30,18 @@ class Product with ChangeNotifier {
   void toggleFavoriteStatus() async {
     final oldFevStatus = isFavorite;
     const urlLink = 'myflutter-update-default-rtdb.firebaseio.com';
+    final idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+
+    xPrint("toggleFavoriteStatus: $idToken");
+
     try {
-      final url = Uri.https(urlLink, '/products/$id.json');
+      final url = Uri.https(urlLink, '/userFavorites/$uid/$id.json', {
+        "auth": idToken,
+      });
+
       isFavorite = !isFavorite;
-      final response = await http.patch(
-        url,
-        body: json.encoder.convert({'isFavorite': isFavorite}),
-      );
+      final response = await http.put(url, body: json.encode(isFavorite));
       if (response.statusCode >= 400) {
         _setFavValue(oldFevStatus);
         xPrint('${response.statusCode}');
