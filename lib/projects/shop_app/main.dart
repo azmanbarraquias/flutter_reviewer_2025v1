@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
             theme: themeData,
             home:
                 auth.isAuth
-                    ? const ProductDetailsScreen()
+                    ? const ProductsOverviewScreen()
                     : FutureBuilder(
                       future: auth.tryAutoLogin(),
                       builder:

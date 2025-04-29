@@ -22,8 +22,7 @@ class MyPage extends GetView<StudentController> {
   const MyPage({super.key});
 
   @override
-  StudentController get controller =>
-      Get.findOrPut<StudentController>(StudentController());
+  StudentController get controller => Get.findOrPut<StudentController>(StudentController());
 
   @override
   Widget build(BuildContext context) {

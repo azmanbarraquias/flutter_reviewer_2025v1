@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_reviewer_2025v1/utils/xprint.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,7 +62,9 @@ class Auth with ChangeNotifier {
       return false;
     }
 
-    final extractedUserData = json.decode(prefs.getString('userData')!) as Map<String, Object>;
+    final extractedUserData = json.decode(prefs.getString('userData')!) as Map<String, dynamic>;
+
+
 
     final expiryTime = DateTime.parse(
       extractedUserData['expiryTime'] as String,
@@ -73,6 +76,7 @@ class Auth with ChangeNotifier {
     uid = extractedUserData['uid'] as String;
     expiredDate = extractedUserData['expiryTime'] as String;
     notifyListeners();
+    xPrint('tryAutoLogin');
     return true;
   }
 
