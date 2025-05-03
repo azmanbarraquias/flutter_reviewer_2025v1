@@ -4,7 +4,6 @@ import 'package:flutter_reviewer_2025v1/utils/xprint.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/auth.dart';
-import '../screens/auth_screen.dart';
 import '../screens/orders_screen.dart';
 import '../screens/user_product_screen.dart';
 
@@ -48,6 +47,7 @@ class AppDrawer extends StatelessWidget {
                 Navigator.of(context).pop();
                 return;
               }
+
               Navigator.of(
                 context,
               ).pushReplacementNamed(OrdersScreen.routeName);

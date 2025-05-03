@@ -97,8 +97,7 @@ class AuthCard extends StatefulWidget {
   State<AuthCard> createState() => _AuthCardState();
 }
 
-class _AuthCardState extends State<AuthCard>
-    with SingleTickerProviderStateMixin {
+class _AuthCardState extends State<AuthCard> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Size> _heightAnimation;
   late Animation<Offset> _slideAnimation;
@@ -157,7 +156,7 @@ class _AuthCardState extends State<AuthCard>
 
     // Navigator.of(context)
     //     .push(CustomRoute(builder: (ctx) => const ProductsOverviewScreen()));
-    //
+
     // return xPrint('_submit');
     if (!_formKey.currentState!.validate()) {
       // Invalid!
@@ -342,6 +341,7 @@ class _AuthCardState extends State<AuthCard>
                       _authMode == AuthMode.login ? 'LOGIN' : 'SIGN UP',
                     ),
                   ),
+                SizedBox(height: 15),
                 TextButton(
                   onPressed: _switchAuthMode,
                   child: Text(

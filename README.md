@@ -37,6 +37,6 @@ https://app.milanote.com/1QXuf41xJ0OReE?p=LKEwZdNRBdh
 <br />•	[NOW] Flutter & Dart - The Complete Guide [2023 Edition] NEW
 <br />•	[ ] Flutter & Firebase Tutorial Build 5 Social Media Apps
 <br />•	[ ] Flutter Google Map APIs Google Cloud Course
-<br />•	[ ] Learn Flutterflow. Build A Minimalist Events App
+<br />•	[ ] Learn Flutter flow. Build A Minimalist Events App
 <br />•	[ ] Dart & Flutter - Zero to Mastery [2023] + Clean Architecture
 

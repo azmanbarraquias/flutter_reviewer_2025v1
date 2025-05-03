@@ -54,6 +54,7 @@ dependencies:
   tuple: any # ^2.0.2 https://pub.dev/packages/tuple
   flutter_emoji: any # ^2.5.1 https://pub.dev/packages/flutter_emoji
   image_picker: any # ^1.1.2 https://pub.dev/packages/image_picker
+  image_picker_for_web: any # ^3.0.6 https://pub.dev/packages/image_picker_for_web#limitations-on-the-web-platform
   flutter_svg: any # ^2.0.17 https://pub.dev/packages/flutter_svg
 
   flutter_highlight: any # ^0.7.0 https://pub.dev/packages/flutter_highlight

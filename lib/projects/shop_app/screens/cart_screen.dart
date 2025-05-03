@@ -94,6 +94,6 @@ class _OrderButtonState extends State<OrderButton> {
                     widget.cart.clear();
                     navigation.pushNamed(OrdersScreen.routeName);
                   },
-            child: const Text('Order x                          now'));
+            child: const Text('Order Now'));
   }
 }
