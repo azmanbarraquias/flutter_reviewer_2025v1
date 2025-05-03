@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_reviewer_2025v1/projects/native_device_features/providers/great_places.dart';
+import 'package:provider/provider.dart';
 
 import 'add_place_screen.dart';
 
@@ -19,7 +21,45 @@ class PlacesListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(child: CircularProgressIndicator()),
+      body: FutureBuilder(
+        future:
+            Provider.of<GreatPlaces>(
+              context,
+              listen: false,
+            ).fetchAndSetPlaces(),
+
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          return Consumer<GreatPlaces>(
+            builder: (
+              BuildContext context,
+              GreatPlaces greatPlace,
+              Widget? child,
+            ) {
+              if (greatPlace.items.isEmpty && child != null) {
+                return child;
+              } else {
+                return ListView.builder(
+                  itemCount: greatPlace.items.length,
+                  itemBuilder: (ctx, index) {
+                    return ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: FileImage(
+                          greatPlace.items[index].image,
+                        ),
+                      ),
+                      title: Text(greatPlace.items[index].title),
+                    );
+                  },
+                );
+              }
+            },
+            child: Center(child: Text('No places added yet')),
+          );
+        },
+      ),
     );
   }
 }
