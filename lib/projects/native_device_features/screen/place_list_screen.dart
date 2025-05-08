@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reviewer_2025v1/projects/native_device_features/providers/great_places.dart';
+import 'package:flutter_reviewer_2025v1/projects/native_device_features/screen/place_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'add_place_screen.dart';
@@ -45,12 +46,19 @@ class PlacesListScreen extends StatelessWidget {
                   itemCount: greatPlace.items.length,
                   itemBuilder: (ctx, index) {
                     return ListTile(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          PlaceDetailScreen.routeName,
+                          arguments: greatPlace.items[index].id,
+                        );
+                      },
                       leading: CircleAvatar(
                         backgroundImage: FileImage(
                           greatPlace.items[index].image,
                         ),
                       ),
                       title: Text(greatPlace.items[index].title),
+                      subtitle: Text(greatPlace.items[index].location!.address),
                     );
                   },
                 );

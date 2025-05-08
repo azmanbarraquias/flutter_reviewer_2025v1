@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reviewer_2025v1/projects/native_device_features/screen/add_place_screen.dart';
+import 'package:flutter_reviewer_2025v1/projects/native_device_features/screen/place_detail_screen.dart';
 import 'package:flutter_reviewer_2025v1/projects/native_device_features/screen/place_list_screen.dart';
 import 'package:flutter_reviewer_2025v1/projects/native_device_features/providers/great_places.dart';
 import 'package:provider/provider.dart';
+
+import 'helpers/db_helper.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,6 +36,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           AddPlaceScreen.routeName: (ctx) => AddPlaceScreen(),
+          PlaceDetailScreen.routeName: (ctx) => PlaceDetailScreen(),
         },
         home: PlacesListScreen(),
       ),

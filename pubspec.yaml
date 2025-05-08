@@ -92,6 +92,10 @@ dependencies:
 
   sqflite: any # ^2.4.2 https://pub.dev/packages/sqflite
 
+  # MAP
+  location: any # ^8.0.0 https://pub.dev/packages/location
+  google_maps_flutter: any # ^2.12.1 https://pub.dev/packages/google_maps_flutter
+
 
 dev_dependencies:
   flutter_test:

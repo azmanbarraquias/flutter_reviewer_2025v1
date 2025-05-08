@@ -9,7 +9,13 @@ class DBHelper {
       path.join(dbPath, 'places.db'),
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT)',
+          'CREATE TABLE user_places('
+          'id TEXT PRIMARY KEY, '
+          'title TEXT, '
+          'image TEXT, '
+          'loc_lat REAL, '
+          'loc_lng REAL, '
+          'address TEXT)',
         );
       },
     );
@@ -20,6 +26,7 @@ class DBHelper {
     required Map<String, Object> data,
   }) async {
     final db = await database();
+
     db.insert(table, data, conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
@@ -27,8 +34,16 @@ class DBHelper {
     required String table,
   }) async {
     final db = await database();
+
     final data = await db.query(table);
+
     return data;
   }
 
+
+  static Future<void> delete() async {
+      final dbPath = await sql.getDatabasesPath();
+    await sql.deleteDatabase(path.join(dbPath, 'places.db'));
+
+  }
 }
