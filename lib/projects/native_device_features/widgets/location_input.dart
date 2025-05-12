@@ -21,8 +21,11 @@ class _LocationInputState extends State<LocationInput> {
   Future<void> _getCurrentLocation() async {
     try {
       final locationData = await Location().getLocation();
-
       widget.selectPlace(locationData.latitude, locationData.longitude);
+      if (locationData.latitude == null || locationData.longitude == null) {
+        return;
+      }
+      _showPreview(locationData.latitude!, locationData.longitude!);
       xPrint(locationData);
     } catch (error) {
       xPrint(error);
