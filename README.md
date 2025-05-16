@@ -23,20 +23,20 @@ https://app.milanote.com/1QXuf41xJ0OReE?p=LKEwZdNRBdh
 <br />•	[✔] 08-State-Management
 <br />•	[✔] 09-Input-Forms
 <br />•	[✔] 10-Http
-<br />•	[NOW] 11-Auth
-<br />•	[ ] 12-Animations
-<br />•	[ ] 13-Native-Device-Features
-<br />•	[ ] 14-Native-Code
-<br />•	[ ] 15-Publish
+<br />•	[✔] 11-Auth
+<br />•	[✔] 12-Animations
+<br />•	[✔] 13-Native-Device-Features
+<br />•	[✔] 14-Native-Code
+<br />• [✔] 15-Publish
 <br />•	[ ] 16-Firebase-Chat
 <br />
 
 # Flutter Courses
-<br />•	[ ] Dart and Flutter 3 Bootcamp Build Apps for Any Screen!
-<br />•	[ ] Flutter - RestApi and MySQLite - Todo App
-<br />•	[NOW] Flutter & Dart - The Complete Guide [2023 Edition] NEW
-<br />•	[ ] Flutter & Firebase Tutorial Build 5 Social Media Apps
-<br />•	[ ] Flutter Google Map APIs Google Cloud Course
-<br />•	[ ] Learn Flutter flow. Build A Minimalist Events App
-<br />•	[ ] Dart & Flutter - Zero to Mastery [2023] + Clean Architecture
+<br />•	[ ]     Dart and Flutter 3 Bootcamp Build Apps for Any Screen!
+<br />•	[ ]     Flutter - RestApi and MySQLite - Todo App
+<br />•	[NOW]   Flutter & Dart - The Complete Guide [2023 Edition] NEW
+<br />•	[ ]     Flutter & Firebase Tutorial Build 5 Social Media Apps
+<br />•	[ ]     Flutter Google Map APIs Google Cloud Course
+<br />•	[ ]     Learn Flutter flow. Build A Minimalist Events App
+<br />•	[ ]     Dart & Flutter - Zero to Mastery [2023] + Clean Architecture
 
