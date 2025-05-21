@@ -133,17 +133,22 @@ class CompletedTasksScreen extends StatelessWidget {
     final completedTasks = context.read<TaskCubit>().completedTasks;
     return Scaffold(
       appBar: AppBar(title: const Text('Completed Tasks')),
-      body: ListView.builder(
-        itemCount: completedTasks.length,
-        itemBuilder: (_, index) {
-          return ListTile(
-            leading: const Checkbox(value: true, onChanged: null),
-            title: Text(
-              completedTasks[index].description,
-              style: const TextStyle(decoration: TextDecoration.lineThrough),
+      body: BlocBuilder<TaskCubit, List<Task>>(
+        builder:
+            (context, tasks) => ListView.builder(
+              itemCount: completedTasks.length,
+              itemBuilder: (_, index) {
+                return ListTile(
+                  leading: const Checkbox(value: true, onChanged: null),
+                  title: Text(
+                    completedTasks[index].description,
+                    style: const TextStyle(
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
       ),
     );
   }

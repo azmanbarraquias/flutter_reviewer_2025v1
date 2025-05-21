@@ -1,19 +1,11 @@
 enum Light { on, off, auto }
 
-// void main() async {
-//   // String? nonNullableVariable; // Non-nullable variable
-//   // nonNullableVariable = null;
-//   // var asd = Text(nonNullableVariable!);
-//   // print(asd.data);
-//
-//   // print('Start');
-//   // await pleaseWait();
-//   // print('End');
-//
-//   String s = "hey👀";
-//   print(s.runes.length); // prints 4
-//   print(s.length); //
-// }
+void main()  {
+
+  String s = "hey👀";
+  print(s.runes.length); // prints 4
+  print(s.length); //
+}
 
 // This example shows how *not* to write asynchronous Dart code.
 
@@ -32,11 +24,15 @@ Future<String> fetchUserOrder() {
   });
 }
 
-void main() {
-  // print('Start');
-  // print(createOrderMessage());
-  // print('End');
+Future<void> pleaseWait() async {
+  Future.delayed(const Duration(seconds: 5), () {
+    print('Done');
+  }).then((count) {
+    print(count);
+  });
+}
 
+void mapTotal() {
   Map<String, int> salary = {
     "user1": 100,
     "user2": 200,
@@ -49,21 +45,13 @@ void main() {
   print(result);
 }
 
-Future<void> pleaseWait() async {
-  Future.delayed(const Duration(seconds: 5), () {
-    print('Done');
-  }).then((count) {
-    print(count);
-  });
-}
-
 void asd() {
   final fixedLengthList = List<int>.filled(5, 0); // Creates fixed-length list.
   print(fixedLengthList); // [0, 0, 0, 0, 0]
   fixedLengthList[0] = 87;
   fixedLengthList.setAll(1, [1, 2, 3]);
   print(fixedLengthList); // [87, 1, 2, 3, 0]
-// Fixed length list length can't be changed or increased
+  // Fixed length list length can't be changed or increased
   fixedLengthList.length = 0; // Throws
   fixedLengthList.add(499); // Throws
 
@@ -91,11 +79,7 @@ void asd() {
 
   // Collection if
   var peanutAllergy = true;
-  var candy = [
-    'junior mints',
-    'twizzlers',
-    if (!peanutAllergy) 'reeses',
-  ];
+  var candy = ['junior mints', 'twizzlers', if (!peanutAllergy) 'reeses'];
 
   // Collection for
   var numbers = [1, 2, 3];
@@ -103,10 +87,10 @@ void asd() {
 }
 
 String status(Light state) => switch (state) {
-      Light.on => 'Light is on',
-      Light.off => 'Light is off',
-      Light.auto => 'Light is auto'
-    };
+  Light.on => 'Light is on',
+  Light.off => 'Light is off',
+  Light.auto => 'Light is auto',
+};
 
 Function hero({required num powerLevel}) {
   return ({required num powerMultiplier}) => powerLevel * powerMultiplier;

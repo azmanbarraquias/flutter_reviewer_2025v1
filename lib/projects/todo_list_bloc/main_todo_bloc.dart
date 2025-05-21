@@ -17,8 +17,8 @@ class TodoApp extends StatelessWidget {
 
 // Task Model
 class Task {
-  final String description;
-  final bool isDone;
+  String description;
+  bool isDone;
 
   Task({required this.description, this.isDone = false});
 
@@ -53,7 +53,6 @@ class TaskState {
 
   List<Task> get completedTasks => tasks.where((task) => task.isDone).toList();
 
-
   TaskState({this.tasks = const []});
 }
 
@@ -73,8 +72,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       );
       emit(TaskState(tasks: updatedTasks));
     });
-
-
   }
 }
 
@@ -85,7 +82,7 @@ class TodoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final taskBloc = BlocProvider.of<TaskBloc>(context);
-    final controller = TextEditingController(); 
+    final controller = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(title: const Text('To-Do List')),
