@@ -3,7 +3,7 @@ environment:
   sdk: ^3.7.2
 dependencies:
   lints: any
-
+  equatable: ^2.0.7
 
 
 

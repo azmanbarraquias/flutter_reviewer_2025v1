@@ -71,12 +71,12 @@ class MyApp extends StatelessWidget {
     );
 
     final routeList = {
-      ProductsOverviewScreen.routeName: (ctx) => const ProductsOverviewScreen(),
-      ProductDetailsScreen.routeName: (ctx) => const ProductDetailsScreen(),
-      CartScreen.routeName: (ctx) => const CartScreen(),
-      OrdersScreen.routeName: (ctx) => const OrdersScreen(),
-      UserProductScreen.routeName: (ctx) => const UserProductScreen(),
-      EditProductScreen.routeName: (ctx) => const EditProductScreen(),
+      ProductsOverviewScreen.routeName: (ctx) =>  ProductsOverviewScreen(),
+      ProductDetailsScreen.routeName: (ctx) =>  ProductDetailsScreen(),
+      CartScreen.routeName: (ctx) =>  CartScreen(),
+      OrdersScreen.routeName: (ctx) =>  OrdersScreen(),
+      UserProductScreen.routeName: (ctx) =>  UserProductScreen(),
+      EditProductScreen.routeName: (ctx) =>  EditProductScreen(),
     };
 
     return MultiProvider(
@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
             theme: themeData,
             home:
                 auth.isAuth
-                    ? const ProductsOverviewScreen()
+                    ?  ProductsOverviewScreen()
                     : FutureBuilder(
                       future: auth.tryAutoLogin(),
                       builder:

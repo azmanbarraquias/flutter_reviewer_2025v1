@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
+import '../../real_apps_practice/main.dart';
 import '../provider/cart.dart';
 import '../widgets/cart_item.dart';
 import '../provider/orders.dart';
 import 'orders_screen.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({super.key});
+
+   CartScreen({super.key}){
+     logWithLocation("AuthScreen");
+  }
+
+
 
   static const routeName = '/cart';
 

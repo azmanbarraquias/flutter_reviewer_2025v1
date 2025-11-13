@@ -101,17 +101,17 @@ class _MyAppState extends State<MyApp> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        tabBarTheme: const TabBarTheme(
-          tabAlignment: TabAlignment.fill,
-          indicator: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.elliptical(100, 500),
-              topRight: Radius.elliptical(100, 500),
-            ),
-          ),
-          indicatorColor: Colors.black,
-        ),
+        // tabBarTheme: TabBarTheme(
+        //   tabAlignment: TabAlignment.fill,
+        //   indicator: BoxDecoration(
+        //     color: Colors.white,
+        //     borderRadius: BorderRadius.only(
+        //       topLeft: Radius.elliptical(100, 500),
+        //       topRight: Radius.elliptical(100, 500),
+        //     ),
+        //   ),
+        //   indicatorColor: Colors.black,
+        // ),
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(color: Colors.white),
           titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),

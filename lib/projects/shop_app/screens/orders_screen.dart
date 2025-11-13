@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../real_apps_practice/main.dart';
 import '../provider/orders.dart' as ord;
 import '../widgets/app_drawer.dart';
 import '../widgets/order_item.dart';
 
 class OrdersScreen extends StatefulWidget {
-  const OrdersScreen({super.key});
+
+  OrdersScreen({super.key}){
+    logWithLocation("OrdersScreen");
+  }
 
   static const routeName = '/orders';
 

@@ -11,10 +11,12 @@
 void main() {
   var c = Car();
   c.brake();
+  c.accelerate(); // error final variable already assign.
+  print(c.speed);
 }
 
 class Car {
-  late final  int speed;
+  late final int speed;
 
   void accelerate() {
     speed = 10;

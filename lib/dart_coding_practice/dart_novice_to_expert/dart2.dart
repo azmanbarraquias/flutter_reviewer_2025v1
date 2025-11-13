@@ -7,7 +7,3 @@
 // Stable channel (stable release) 2.12
 // Beta channel (preview release) 2.11.beta
 // Dev channel (development release) 2.13.dev
-
-
-
-void main() {}

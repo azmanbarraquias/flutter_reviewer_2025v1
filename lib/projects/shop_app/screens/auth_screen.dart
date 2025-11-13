@@ -8,12 +8,16 @@ import 'package:flutter_reviewer_2025v1/utils/xprint.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_reviewer_2025v1/projects/shop_app/models/http_exception.dart';
 
+import '../../real_apps_practice/main.dart';
+
 enum AuthMode { signup, login }
 
 class AuthScreen extends StatelessWidget {
   static const routeName = '/auth';
 
-  const AuthScreen({super.key});
+   AuthScreen({super.key}) {
+     logWithLocation("AuthScreen");
+  }
 
   @override
   Widget build(BuildContext context) {

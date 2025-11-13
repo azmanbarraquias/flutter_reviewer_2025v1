@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:mix/mix.dart';
 import 'package:provider/provider.dart';
 
+import '../../real_apps_practice/main.dart';
 import '../provider/product.dart';
 import '../provider/products.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({super.key});
+
+  ProductDetailsScreen({super.key}){
+    logWithLocation("OrdersScreen");
+  }
 
   static String routeName = '/product-details-screen';
 

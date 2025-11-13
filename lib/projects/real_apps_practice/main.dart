@@ -11,6 +11,27 @@ import './widgets/transaction_list.dart';
 import './widgets/chart.dart';
 import './models/transaction.dart';
 
+void logWithLocation(String message) {
+  final trace = StackTrace.current;
+  final frames = trace.toString().split("\n");
+
+  if (frames.length > 1) {
+    final frame = frames[1]; // The frame that called logWithLocation
+    final pattern = RegExp(r'#1\s+.*\((.*?):(\d+):\d+\)');
+    final match = pattern.firstMatch(frame);
+
+    if (match != null) {
+      final file = match.group(1);
+      final line = match.group(2);
+      print("[$file:$line] $message");
+      return;
+    }
+  }
+
+  print(message); // Fallback
+}
+
+
 void main() {
   // SystemChrome.setPreferredOrientations([
   //   DeviceOrientation.portraitUp,

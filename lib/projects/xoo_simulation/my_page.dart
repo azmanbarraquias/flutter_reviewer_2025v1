@@ -1,10 +1,11 @@
 import 'dart:async';
+import 'package:battery_plus/battery_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_reviewer_2025v1/projects/xoo_simulation/battery_service.dart';
-import 'package:flutter_reviewer_2025v1/projects/xoo_simulation/doze_mode_helper.dart';
-import 'package:flutter_reviewer_2025v1/projects/xoo_simulation/logs_viewer_panel.dart';
-import 'package:flutter_reviewer_2025v1/projects/xoo_simulation/main.dart';
 import 'package:flutter_reviewer_2025v1/projects/xoo_simulation/simple_logger_helper.dart';
+import 'battery_service.dart';
+import 'doze_mode_helper.dart';
+import 'logs_viewer_panel.dart';
+import 'main.dart';
 import 'dart:io';
 
 class MyPage extends StatefulWidget {
@@ -92,22 +93,22 @@ class _MyPageState extends State<MyPage> {
                             dozeValue == true ? Icons.bedtime : Icons.bolt,
                             size: 80,
                             color:
-                            dozeValue == true ? Colors.red : Colors.green,
+                                dozeValue == true ? Colors.red : Colors.green,
                           ),
                           Text(
                             dozeValue == true
                                 ? "In Doze Mode"
                                 : (dozeValue == false
-                                ? "Not in Doze Mode"
-                                : "Waiting for Doze state..."),
+                                    ? "Not in Doze Mode"
+                                    : "Waiting for Doze state..."),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color:
-                              dozeValue == true
-                                  ? Colors.red
-                                  : (dozeValue == false
-                                  ? Colors.green
-                                  : Colors.black),
+                                  dozeValue == true
+                                      ? Colors.red
+                                      : (dozeValue == false
+                                          ? Colors.green
+                                          : Colors.black),
                               fontSize: 24,
                             ),
                           ),

@@ -4,11 +4,14 @@ import 'package:flutter_reviewer_2025v1/utils/xprint.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
+import '../../real_apps_practice/main.dart';
 import '../provider/product.dart';
 import '../provider/products.dart';
 
 class EditProductScreen extends StatefulWidget {
-  const EditProductScreen({super.key});
+   EditProductScreen({super.key}){
+    logWithLocation("EditProductScreen");
+  }
 
   static const routeName = '/edit-product';
 

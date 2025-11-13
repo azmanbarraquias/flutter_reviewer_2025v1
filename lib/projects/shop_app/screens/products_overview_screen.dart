@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reviewer_2025v1/utils/xprint.dart';
 import 'package:provider/provider.dart';
 
+import '../../real_apps_practice/main.dart';
 import '../provider/cart.dart';
 
 import '../provider/products.dart';
@@ -13,7 +14,10 @@ import 'cart_screen.dart';
 enum FilterOptions { all, favorite, cart }
 
 class ProductsOverviewScreen extends StatefulWidget {
-  const ProductsOverviewScreen({super.key});
+
+  ProductsOverviewScreen({super.key}){
+    logWithLocation("ProductsOverviewScreen");
+  }
 
   static String routeName = '/product-overview-screen';
 

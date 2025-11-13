@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/xprint.dart';
+import '../../real_apps_practice/main.dart';
 import '../provider/products.dart';
 import '../widgets/user_product_item.dart';
 import 'edit_product_screen.dart';
 
 class UserProductScreen extends StatelessWidget {
-  const UserProductScreen({super.key});
+
+   UserProductScreen({super.key}){
+    logWithLocation("UserProductScreen");
+  }
 
   static const routeName = 'user-products';
 

@@ -11,11 +11,19 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_reviewer_2025v1/main.dart';
 
 void main() {
+
   test('The calculate function returns 42', () {
     expect(calculate(), 42);
+  });
+  test('The doubleIt function returns 42', () {
+    expect(doubleIt(21), 42);
   });
 }
 
 int calculate() {
   return 42;
+}
+
+int doubleIt(int x) {
+  return x * 2;
 }

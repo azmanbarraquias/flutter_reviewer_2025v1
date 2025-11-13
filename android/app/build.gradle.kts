@@ -23,11 +23,27 @@ android {
         applicationId = "com.example.flutter_reviewer_2025v1"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 23 // flutter.minSdkVersion
+        minSdk = flutter.minSdkVersion // flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
+
+    // <<<--- Add below here! --->>>
+//    flavorDimensions.add("app")
+//    productFlavors {
+//        create("appA") {
+//            dimension = "app"
+//            applicationId = "com.example.appa"
+//            resValue("string", "app_name", "App A")
+//        }
+//        create("appB") {
+//            dimension = "app"
+//            applicationId = "com.example.appb"
+//            resValue("string", "app_name", "App B")
+//        }
+//    }
+//    // <<<--- End flavor config --->>>
 
     buildTypes {
         release {
